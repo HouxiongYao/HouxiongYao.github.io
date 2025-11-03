@@ -1,0 +1,118 @@
+---
+layout: default
+---
+
+<!-- Hero Section -->
+<div class="relative mb-16">
+  <div class="relative z-10">
+    <h1 class="font-display font-bold text-5xl md:text-6xl lg:text-7xl text-white mb-6 leading-tight">
+      <span class="bg-clip-text text-transparent bg-gradient-to-r from-tech-cyan via-tech-purple to-tech-cyan animate-pulse-slow">
+        技术博客
+      </span>
+    </h1>
+    <p class="text-xl md:text-2xl text-gray-400 max-w-2xl leading-relaxed">
+      生而无畏，战至终章
+    </p>
+  </div>
+  
+  <!-- 装饰线条 -->
+  <div class="absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-tech-cyan/30 to-transparent"></div>
+</div>
+
+<!-- Blog Posts Grid -->
+<div class="space-y-8">
+  {%- if site.posts.size > 0 -%}
+    {%- assign posts = site.posts -%}
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {%- for post in posts -%}
+      <article class="group relative bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 hover:border-tech-cyan/50 transition-all duration-500 overflow-hidden hover:shadow-2xl hover:shadow-tech-cyan/10 hover:-translate-y-2">
+        
+        <!-- 悬停光效 -->
+        <div class="absolute inset-0 bg-gradient-to-br from-tech-cyan/0 to-tech-purple/0 group-hover:from-tech-cyan/5 group-hover:to-tech-purple/5 transition-all duration-500"></div>
+        
+        <div class="relative p-6 space-y-4">
+          
+          <!-- 日期标签 -->
+          <div class="flex items-center justify-between text-sm">
+            <time class="text-tech-cyan font-medium flex items-center space-x-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+              </svg>
+              <span>{{ post.date | date: "%Y-%m-%d" }}</span>
+            </time>
+            
+            {%- if post.categories.size > 0 -%}
+            <span class="px-3 py-1 rounded-full bg-tech-purple/20 text-tech-purple text-xs font-medium">
+              {{ post.categories | first }}
+            </span>
+            {%- endif -%}
+          </div>
+          
+          <!-- 标题 -->
+          <h3 class="font-display font-bold text-xl text-white group-hover:text-tech-cyan transition-colors duration-300 line-clamp-2">
+            <a href="{{ post.url | relative_url }}" class="hover:underline">
+              {{ post.title | escape }}
+            </a>
+          </h3>
+          
+          <!-- 摘要 -->
+          {%- if post.excerpt -%}
+          <p class="text-gray-400 text-sm leading-relaxed line-clamp-3">
+            {{ post.excerpt | strip_html | truncatewords: 30 }}
+          </p>
+          {%- endif -%}
+          
+          <!-- 阅读更多 -->
+          <a href="{{ post.url | relative_url }}" 
+             class="inline-flex items-center space-x-2 text-tech-cyan hover:text-tech-purple transition-colors duration-300 font-medium group/link">
+            <span>阅读全文</span>
+            <svg class="w-4 h-4 group-hover/link:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          </a>
+        </div>
+        
+        <!-- 底部装饰线 -->
+        <div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-tech-cyan via-tech-purple to-tech-cyan transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
+      </article>
+      {%- endfor -%}
+    </div>
+    
+    <!-- Pagination (如果需要) -->
+    {%- if paginator.total_pages > 1 -%}
+    <div class="flex justify-center items-center space-x-2 pt-8">
+      {%- if paginator.previous_page -%}
+      <a href="{{ paginator.previous_page_path | relative_url }}" 
+         class="px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white transition-all duration-300">
+        上一页
+      </a>
+      {%- endif -%}
+      
+      <span class="px-4 py-2 rounded-lg bg-tech-cyan/20 text-tech-cyan font-medium">
+        {{ paginator.page }} / {{ paginator.total_pages }}
+      </span>
+      
+      {%- if paginator.next_page -%}
+      <a href="{{ paginator.next_page_path | relative_url }}" 
+         class="px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white transition-all duration-300">
+        下一页
+      </a>
+      {%- endif -%}
+    </div>
+    {%- endif -%}
+    
+  {%- else -%}
+    <!-- 空状态 -->
+    <div class="text-center py-20">
+      <div class="w-24 h-24 mx-auto mb-6 rounded-full bg-white/5 flex items-center justify-center">
+        <svg class="w-12 h-12 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+        </svg>
+      </div>
+      <p class="text-gray-500 text-lg">暂无文章</p>
+    </div>
+  {%- endif -%}
+</div>
+
+{{ content }}

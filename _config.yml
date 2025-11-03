@@ -29,15 +29,22 @@ url: "https://Houxiongyao.github.io" # the base hostname & protocol for your sit
 github_username:  HouxiongYao
 
 # Build settings
-theme: minima
+# theme: minima  # 已禁用默认主题，使用自定义布局
 plugins:
   - jekyll-feed
+  - jekyll-seo-tag
 
 # Enable MathJax for math formula rendering
 markdown: kramdown
 kramdown:
   math_engine: mathjax
   syntax_highlighter: rouge
+  input: GFM
+  hard_wrap: false
+  
+# Pagination (可选)
+# paginate: 10
+# paginate_path: "/page:num/"
 
 # Exclude from processing.
 # The following items will not be processed, by default.

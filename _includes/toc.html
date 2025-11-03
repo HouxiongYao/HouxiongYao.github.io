@@ -1,0 +1,235 @@
+<!-- 文章目录 TOC -->
+
+<!-- 桌面端：左侧窄条，点击展开 -->
+<div id="toc-wrapper" class="hidden md:block fixed top-24 left-4 z-[110]">
+  <!-- 窄条容器 -->
+  <div id="toc-collapsed" class="w-16 h-auto bg-gradient-to-br from-cyan-500/20 to-purple-500/20 backdrop-blur-xl border-2 border-cyan-500/30 rounded-2xl shadow-2xl shadow-cyan-500/20">
+    <!-- 切换按钮 -->
+    <button id="toc-toggle" onclick="toggleTOC()" class="w-full h-16 flex items-center justify-center text-cyan-400 hover:text-cyan-300 transition-all duration-300 hover:bg-white/5 rounded-2xl">
+      <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h7"/>
+      </svg>
+    </button>
+  </div>
+  
+  <!-- 展开的目录内容 -->
+  <div id="toc-expanded" class="hidden absolute top-0 left-0 w-72 max-h-[calc(100vh-8rem)] bg-gradient-to-br from-gray-900/95 to-gray-800/95 backdrop-blur-xl border-2 border-cyan-500/30 rounded-2xl shadow-2xl shadow-cyan-500/20 overflow-hidden">
+    <!-- 头部 -->
+    <div class="flex items-center justify-between p-4 border-b border-cyan-500/20">
+      <div class="flex items-center space-x-2">
+        <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/>
+        </svg>
+        <h3 class="font-display font-bold text-white text-lg">目录</h3>
+      </div>
+      <button onclick="toggleTOC()" class="text-gray-400 hover:text-white transition-colors">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+    
+    <!-- 目录列表 -->
+    <nav id="toc-list" class="p-4 space-y-1 overflow-y-auto max-h-[calc(100vh-16rem)]">
+      <!-- JavaScript 动态生成 -->
+    </nav>
+    
+    <!-- 阅读进度 -->
+    <div class="p-4 border-t border-cyan-500/20">
+      <div class="flex items-center justify-between text-xs text-gray-400 mb-2">
+        <span>阅读进度</span>
+        <span id="reading-progress">0%</span>
+      </div>
+      <div class="h-1.5 bg-gray-700 rounded-full overflow-hidden">
+        <div id="progress-bar" class="h-full bg-gradient-to-r from-cyan-500 to-purple-500 transition-all duration-300" style="width: 0%"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 移动端：右下角浮动按钮 -->
+<button id="mobile-toc-btn" onclick="toggleMobileTOC()" class="md:hidden fixed bottom-20 right-4 w-16 h-16 bg-gradient-to-br from-cyan-500 to-purple-500 rounded-full shadow-2xl shadow-cyan-500/50 flex items-center justify-center text-white z-40 hover:scale-110 transition-transform duration-300">
+  <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h7"/>
+  </svg>
+</button>
+
+<!-- 移动端：全屏弹窗 -->
+<div id="mobile-toc-overlay" class="md:hidden hidden fixed inset-0 bg-black/90 backdrop-blur-sm z-50">
+  <div class="h-full flex flex-col bg-gradient-to-br from-gray-900 to-gray-800 p-6">
+    <!-- 头部 -->
+    <div class="flex items-center justify-between mb-6">
+      <div class="flex items-center space-x-2">
+        <svg class="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/>
+        </svg>
+        <h3 class="font-display font-bold text-white text-xl">目录</h3>
+      </div>
+      <button onclick="toggleMobileTOC()" class="text-gray-400 hover:text-white">
+        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+    
+    <!-- 目录列表 -->
+    <nav id="mobile-toc-list" class="flex-1 overflow-y-auto space-y-1 mb-6">
+      <!-- JavaScript 动态生成 -->
+    </nav>
+    
+    <!-- 阅读进度 -->
+    <div>
+      <div class="flex items-center justify-between text-sm text-gray-400 mb-2">
+        <span>阅读进度</span>
+        <span id="mobile-progress">0%</span>
+      </div>
+      <div class="h-2 bg-gray-700 rounded-full overflow-hidden">
+        <div id="mobile-progress-bar" class="h-full bg-gradient-to-r from-cyan-500 to-purple-500 transition-all duration-300" style="width: 0%"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// 生成目录
+function generateTOC() {
+  const article = document.querySelector('.prose');
+  if (!article) return;
+  
+  const headings = article.querySelectorAll('h2, h3, h4');
+  if (headings.length === 0) return;
+  
+  const tocList = document.getElementById('toc-list');
+  const mobileTocList = document.getElementById('mobile-toc-list');
+  
+  let html = '';
+  headings.forEach((heading, index) => {
+    if (!heading.id) heading.id = `heading-${index}`;
+    
+    const level = parseInt(heading.tagName.charAt(1));
+    const text = heading.textContent;
+    const indent = (level - 2) * 16;
+    
+    html += `
+      <a href="#${heading.id}" 
+         data-heading="${heading.id}"
+         onclick="scrollToHeading('${heading.id}', event)"
+         class="toc-link block py-2 px-3 text-sm text-gray-300 hover:text-cyan-400 hover:bg-cyan-500/10 rounded-lg transition-all duration-200"
+         style="padding-left: ${indent + 12}px">
+        ${text}
+      </a>
+    `;
+  });
+  
+  if (tocList) tocList.innerHTML = html;
+  if (mobileTocList) mobileTocList.innerHTML = html;
+  
+  // 监听滚动高亮
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        document.querySelectorAll('.toc-link').forEach(link => {
+          link.classList.remove('active');
+        });
+        document.querySelectorAll(`[data-heading="${entry.target.id}"]`).forEach(link => {
+          link.classList.add('active');
+        });
+      }
+    });
+  }, { rootMargin: '-100px 0px -66%' });
+  
+  headings.forEach(h => observer.observe(h));
+}
+
+// 滚动到标题
+function scrollToHeading(id, event) {
+  event.preventDefault();
+  const element = document.getElementById(id);
+  if (element) {
+    window.scrollTo({
+      top: element.offsetTop - 100,
+      behavior: 'smooth'
+    });
+  }
+}
+
+// 切换桌面端目录
+function toggleTOC() {
+  const collapsed = document.getElementById('toc-collapsed');
+  const expanded = document.getElementById('toc-expanded');
+  const article = document.getElementById('article-content');
+  
+  if (expanded.classList.contains('hidden')) {
+    // 展开目录
+    expanded.classList.remove('hidden');
+    collapsed.classList.add('hidden');
+    
+    // 调整文章位置（只在桌面端）
+    if (window.innerWidth >= 768) {
+      if (article) {
+        article.style.marginLeft = window.innerWidth >= 1024 ? '360px' : '340px';
+        article.style.marginRight = window.innerWidth >= 1024 ? '48px' : '32px';
+      }
+    }
+  } else {
+    // 收起目录
+    expanded.classList.add('hidden');
+    collapsed.classList.remove('hidden');
+    
+    // 恢复文章居中
+    if (article) {
+      article.style.marginLeft = 'auto';
+      article.style.marginRight = 'auto';
+    }
+  }
+}
+
+// 切换移动端目录
+function toggleMobileTOC() {
+  const overlay = document.getElementById('mobile-toc-overlay');
+  overlay.classList.toggle('hidden');
+}
+
+// 更新阅读进度
+function updateProgress() {
+  const winHeight = window.innerHeight;
+  const docHeight = document.documentElement.scrollHeight - winHeight;
+  const scrolled = window.pageYOffset;
+  const progress = Math.min((scrolled / docHeight) * 100, 100);
+  
+  ['progress-bar', 'mobile-progress-bar'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.width = `${progress}%`;
+  });
+  
+  ['reading-progress', 'mobile-progress'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = `${Math.round(progress)}%`;
+  });
+}
+
+// 初始化
+document.addEventListener('DOMContentLoaded', () => {
+  generateTOC();
+  updateProgress();
+});
+
+window.addEventListener('scroll', updateProgress);
+
+// 点击外部关闭
+document.addEventListener('click', (e) => {
+  const wrapper = document.getElementById('toc-wrapper');
+  const expanded = document.getElementById('toc-expanded');
+  if (wrapper && !wrapper.contains(e.target) && !expanded.classList.contains('hidden')) {
+    toggleTOC();
+  }
+});
+</script>
+
+<style>
+.toc-link.active {
+  color: #06b6d4 !important;
+  background: rgba(6, 182, 212, 0.15) !important;
+  border-left: 3px solid #06b6d4;
+}
+</style>

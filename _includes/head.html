@@ -1,0 +1,143 @@
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {%- seo -%}
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="{{ '/favicon.png' | relative_url }}">
+  <link rel="apple-touch-icon" href="{{ '/favicon.png' | relative_url }}">
+  
+  <!-- Google Fonts - Inter & Space Grotesk -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Tailwind Config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            'sans': ['Inter', 'system-ui', 'sans-serif'],
+            'display': ['Space Grotesk', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            'tech-dark': '#0a0e17',
+            'tech-darker': '#060911',
+            'tech-blue': '#1e3a8a',
+            'tech-cyan': '#06b6d4',
+            'tech-purple': '#8b5cf6',
+            'tech-glow': '#60a5fa',
+          },
+          animation: {
+            'float': 'float 6s ease-in-out infinite',
+            'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'glow': 'glow 2s ease-in-out infinite alternate',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-20px)' },
+            },
+            glow: {
+              'from': { boxShadow: '0 0 20px rgba(96, 165, 250, 0.5)' },
+              'to': { boxShadow: '0 0 30px rgba(96, 165, 250, 0.8)' },
+            }
+          },
+          typography: {
+            DEFAULT: {
+              css: {
+                maxWidth: 'none',
+                color: '#d1d5db',
+                h1: {
+                  color: '#ffffff',
+                  fontWeight: '700',
+                  fontSize: '2.25rem',
+                  marginTop: '3rem',
+                  marginBottom: '1.5rem',
+                },
+                h2: {
+                  color: '#ffffff',
+                  fontWeight: '700',
+                  fontSize: '1.875rem',
+                  marginTop: '2.5rem',
+                  marginBottom: '1.25rem',
+                  paddingBottom: '0.5rem',
+                  borderBottomWidth: '1px',
+                  borderBottomColor: 'rgba(255, 255, 255, 0.1)',
+                },
+                h3: {
+                  color: '#ffffff',
+                  fontWeight: '600',
+                  fontSize: '1.5rem',
+                  marginTop: '2rem',
+                  marginBottom: '1rem',
+                },
+                h4: {
+                  color: '#ffffff',
+                  fontWeight: '600',
+                  fontSize: '1.25rem',
+                  marginTop: '1.5rem',
+                  marginBottom: '0.75rem',
+                },
+                h5: {
+                  color: '#ffffff',
+                  fontWeight: '600',
+                  fontSize: '1.125rem',
+                  marginTop: '1.5rem',
+                  marginBottom: '0.75rem',
+                },
+                h6: {
+                  color: '#ffffff',
+                  fontWeight: '600',
+                  fontSize: '1rem',
+                  marginTop: '1.5rem',
+                  marginBottom: '0.75rem',
+                },
+                p: {
+                  marginTop: '1rem',
+                  marginBottom: '1rem',
+                },
+                ul: {
+                  listStyleType: 'disc',
+                  listStylePosition: 'outside',
+                  paddingLeft: '1.5rem',
+                  marginTop: '1rem',
+                  marginBottom: '1rem',
+                },
+                ol: {
+                  listStyleType: 'decimal',
+                  listStylePosition: 'outside',
+                  paddingLeft: '1.5rem',
+                  marginTop: '1rem',
+                  marginBottom: '1rem',
+                },
+                li: {
+                  marginTop: '0.5rem',
+                  marginBottom: '0.5rem',
+                  color: '#d1d5db',
+                  lineHeight: '1.8',
+                },
+                'li::marker': {
+                  color: '#06b6d4',
+                },
+              },
+            },
+          },
+        }
+      }
+    }
+  </script>
+  
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="{{ '/assets/css/custom.css' | relative_url }}">
+  
+  {%- feed_meta -%}
+  {%- if jekyll.environment == 'production' and site.google_analytics -%}
+    {%- include google-analytics.html -%}
+  {%- endif -%}
+</head>

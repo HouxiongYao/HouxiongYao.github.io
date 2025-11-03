@@ -1,25 +1,57 @@
 ---
 permalink: /404.html
-layout: page
+layout: default
 ---
 
-<style type="text/css" media="screen">
-  .container {
-    margin: 10px auto;
-    max-width: 600px;
-    text-align: center;
-  }
-  h1 {
-    margin: 30px 0;
-    font-size: 4em;
-    line-height: 1;
-    letter-spacing: -1px;
-  }
-</style>
-
-<div class="container">
-  <h1>404</h1>
-
-  <p><strong>Page not found :(</strong></p>
-  <p>The requested page could not be found.</p>
+<div class="flex flex-col items-center justify-center min-h-[60vh] text-center space-y-8">
+  
+  <!-- 404 大标题 -->
+  <div class="relative">
+    <h1 class="font-display font-bold text-9xl md:text-[12rem] text-transparent bg-clip-text bg-gradient-to-r from-tech-cyan via-tech-purple to-tech-cyan animate-pulse-slow">
+      404
+    </h1>
+    <div class="absolute inset-0 bg-gradient-to-r from-tech-cyan/20 via-tech-purple/20 to-tech-cyan/20 blur-3xl -z-10"></div>
+  </div>
+  
+  <!-- 错误信息 -->
+  <div class="space-y-4">
+    <h2 class="font-display font-bold text-3xl md:text-4xl text-white">
+      页面未找到
+    </h2>
+    <p class="text-gray-400 text-lg max-w-md mx-auto">
+      抱歉，你访问的页面不存在或已被移除。
+    </p>
+  </div>
+  
+  <!-- 装饰线 -->
+  <div class="w-32 h-1 bg-gradient-to-r from-tech-cyan to-tech-purple rounded-full"></div>
+  
+  <!-- 返回按钮 -->
+  <div class="flex flex-wrap gap-4 justify-center">
+    <a href="{{ '/' | relative_url }}" 
+       class="group px-8 py-3 rounded-xl bg-gradient-to-r from-tech-cyan to-tech-purple hover:shadow-lg hover:shadow-tech-cyan/50 transition-all duration-300 hover:scale-105 flex items-center space-x-2">
+      <svg class="w-5 h-5 text-white group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+      </svg>
+      <span class="text-white font-semibold">返回首页</span>
+    </a>
+    
+    <button onclick="history.back()" 
+            class="px-8 py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-tech-cyan/50 text-white font-semibold transition-all duration-300 hover:scale-105">
+      返回上一页
+    </button>
+  </div>
+  
+  <!-- 搜索建议 -->
+  <div class="mt-8 p-6 rounded-2xl bg-white/5 border border-white/10 max-w-md">
+    <p class="text-gray-400 text-sm mb-3">或者尝试搜索你想要的内容：</p>
+    <button onclick="toggleSearch()" 
+            class="w-full px-4 py-3 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 hover:border-tech-cyan/50 text-gray-300 hover:text-white transition-all duration-300 flex items-center justify-center space-x-2">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+      </svg>
+      <span>打开搜索</span>
+    </button>
+  </div>
+  
 </div>

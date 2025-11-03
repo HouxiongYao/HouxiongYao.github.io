@@ -1,0 +1,37 @@
+---
+layout: default
+---
+
+<article class="max-w-4xl mx-auto">
+  
+  <!-- 页面头部 -->
+  <header class="mb-12 text-center space-y-6">
+    <h1 class="font-display font-bold text-5xl md:text-6xl text-white leading-tight">
+      <span class="bg-clip-text text-transparent bg-gradient-to-r from-tech-cyan via-tech-purple to-tech-cyan">
+        {{ page.title | escape }}
+      </span>
+    </h1>
+    
+    {%- if page.subtitle -%}
+    <p class="text-xl text-gray-400">{{ page.subtitle }}</p>
+    {%- endif -%}
+    
+    <div class="h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+  </header>
+
+  <!-- 页面内容 -->
+  <div class="prose prose-invert prose-lg max-w-none
+              prose-headings:font-display prose-headings:font-bold prose-headings:text-white
+              prose-h1:text-4xl prose-h2:text-3xl prose-h3:text-2xl
+              prose-p:text-gray-300 prose-p:leading-relaxed
+              prose-a:text-tech-cyan prose-a:no-underline hover:prose-a:text-tech-purple hover:prose-a:underline
+              prose-strong:text-white prose-strong:font-semibold
+              prose-code:text-tech-cyan prose-code:bg-white/5 prose-code:px-2 prose-code:py-1 prose-code:rounded
+              prose-ul:text-gray-300 prose-ol:text-gray-300
+              prose-li:marker:text-tech-cyan
+              prose-img:rounded-xl prose-img:shadow-2xl
+              prose-hr:border-white/10">
+    {{ content }}
+  </div>
+
+</article>

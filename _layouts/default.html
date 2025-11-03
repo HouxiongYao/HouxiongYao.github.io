@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: site.lang | default: 'zh-CN' }}">
+
+  {%- include head.html -%}
+
+  <body class="bg-tech-darker text-gray-300 font-sans antialiased">
+    
+    <!-- 背景粒子效果 -->
+    <div class="fixed inset-0 pointer-events-none overflow-hidden">
+      <!-- 渐变背景 -->
+      <div class="absolute inset-0 bg-gradient-to-br from-tech-darker via-tech-dark to-tech-darker"></div>
+      
+      <!-- 动态光晕 -->
+      <div class="absolute top-20 left-1/4 w-96 h-96 bg-tech-cyan/10 rounded-full blur-3xl animate-pulse-slow"></div>
+      <div class="absolute bottom-20 right-1/4 w-96 h-96 bg-tech-purple/10 rounded-full blur-3xl animate-pulse-slow" style="animation-delay: 2s;"></div>
+      
+      <!-- 网格线条 -->
+      <div class="absolute inset-0" style="background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px); background-size: 50px 50px;"></div>
+    </div>
+
+    {%- include header.html -%}
+
+    <main class="relative min-h-screen pt-16">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 py-12">
+        {{ content }}
+      </div>
+    </main>
+
+    {%- include footer.html -%}
+    
+    <!-- 平滑滚动效果 -->
+    <script>
+      // 平滑滚动到顶部
+      function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      
+      // 显示返回顶部按钮
+      window.addEventListener('scroll', function() {
+        const scrollTop = document.getElementById('scrollTop');
+        if (scrollTop) {
+          if (window.pageYOffset > 300) {
+            scrollTop.classList.remove('hidden');
+          } else {
+            scrollTop.classList.add('hidden');
+          }
+        }
+      });
+    </script>
+    
+    <!-- 返回顶部按钮 -->
+    <button id="scrollTop" 
+            onclick="scrollToTop()" 
+            class="hidden fixed bottom-8 right-8 w-12 h-12 rounded-full bg-gradient-to-br from-tech-cyan to-tech-purple shadow-lg hover:shadow-tech-glow/50 flex items-center justify-center transition-all duration-300 hover:scale-110 z-40 group">
+      <svg class="w-6 h-6 text-white group-hover:animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+      </svg>
+    </button>
+
+  </body>
+
+</html>

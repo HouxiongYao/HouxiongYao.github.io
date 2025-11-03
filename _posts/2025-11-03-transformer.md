@@ -2,9 +2,9 @@
 layout: post
 title:  "Attention and Transformer"
 date:   2025-11-03 15:23:33 +0800
-categories: DeepLearning NLP
+categories: [DeepLearning, NLP]
+tags: [Transformer, Attention, 深度学习]
 ---
-# Transformer
 
 本文记录自己初学Transformer的笔记，内容大部分参考[这篇Blog](https://jalammar.github.io/illustrated-transformer/)
 
