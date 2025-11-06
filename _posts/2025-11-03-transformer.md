@@ -4,6 +4,8 @@ title:  "Attention and Transformer"
 date:   2025-11-03 15:23:33 +0800
 categories: [DeepLearning, NLP]
 tags: [Transformer, Attention, 深度学习]
+series: "深度学习入门"
+series_order: 1
 ---
 
 本文记录自己初学Transformer的笔记，内容大部分参考[这篇Blog](https://jalammar.github.io/illustrated-transformer/)

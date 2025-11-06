@@ -19,6 +19,66 @@ layout: default
   <div class="absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-tech-cyan/30 to-transparent"></div>
 </div>
 
+<!-- 合集导航区域 -->
+{%- assign posts_with_series = site.posts | where_exp: "post", "post.series" -%}
+{%- assign series_names = posts_with_series | map: "series" | uniq -%}
+
+{%- if series_names.size > 0 -%}
+<div class="mb-16">
+  <!-- 合集标题 -->
+  <div class="flex items-center justify-between mb-8">
+    <div class="flex items-center space-x-4">
+      <div class="w-1 h-8 bg-gradient-to-b from-tech-cyan to-tech-purple rounded-full"></div>
+      <h2 class="text-2xl font-bold text-white">精选合集</h2>
+    </div>
+    <a href="/series/" 
+       class="inline-flex items-center space-x-2 text-tech-cyan hover:text-tech-purple transition-colors text-sm">
+      <span>查看全部</span>
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+      </svg>
+    </a>
+  </div>
+
+  <!-- 合集卡片 -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+    {%- for series_name in series_names limit: 3 -%}
+      {%- assign series_posts = posts_with_series | where: "series", series_name | sort: "series_order" -%}
+      {%- assign latest_post = series_posts | first -%}
+      
+      <a href="/series/{{ series_name }}/" 
+         class="group block p-6 rounded-2xl bg-gradient-to-br from-white/5 to-white/2 border border-white/10 hover:border-tech-cyan/50 transition-all duration-300 hover:-translate-y-1">
+        
+        <!-- 合集标题 -->
+        <div class="flex items-center space-x-3 mb-4">
+          <div class="w-3 h-10 bg-gradient-to-b from-tech-cyan to-tech-purple rounded-full"></div>
+          <div>
+            <h3 class="font-bold text-white group-hover:text-tech-cyan transition-colors">
+              {{ series_name }}
+            </h3>
+            <p class="text-sm text-gray-400">{{ series_posts.size }} 篇文章</p>
+          </div>
+        </div>
+        
+        <!-- 最新文章 -->
+        <div class="space-y-2 mb-4">
+          <p class="text-xs text-gray-500">最新文章</p>
+          <p class="text-sm text-gray-300 line-clamp-2">{{ latest_post.title }}</p>
+        </div>
+        
+        <!-- 进度条 -->
+        <div class="w-full bg-white/10 rounded-full h-1">
+          {%- assign progress = series_posts.size | times: 15 -%}
+          {%- if progress > 100 -%}{%- assign progress = 100 -%}{%- endif -%}
+          <div class="bg-gradient-to-r from-tech-cyan to-tech-purple h-1 rounded-full" 
+               style="width: {{ progress }}&#37;"></div>
+        </div>
+      </a>
+    {%- endfor -%}
+  </div>
+</div>
+{%- endif -%}
+
 <!-- Blog Posts Grid -->
 <div class="space-y-8">
   {%- if site.posts.size > 0 -%}
