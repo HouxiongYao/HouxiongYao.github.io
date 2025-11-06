@@ -1,0 +1,79 @@
+<!-- 合集导航组件 -->
+{%- if page.series -%}
+  {%- assign current_series = page.series -%}
+  {%- assign series_posts = site.posts | where: "series", current_series | sort: "series_order" -%}
+  
+  {%- if series_posts.size > 1 -%}
+  <div class="series-navigation mb-12 p-6 rounded-2xl bg-gradient-to-br from-tech-purple/10 to-tech-cyan/10 border border-white/10">
+    <!-- 合集标题 -->
+    <div class="flex items-center space-x-3 mb-6">
+      <div class="w-2 h-8 bg-gradient-to-b from-tech-purple to-tech-cyan rounded-full"></div>
+      <div>
+        <h3 class="text-xl font-bold text-white">{{ current_series }}</h3>
+        <p class="text-sm text-gray-400">共 {{ series_posts.size }} 篇文章</p>
+      </div>
+    </div>
+
+    <!-- 文章列表 -->
+    <div class="space-y-3">
+      {%- for post in series_posts -%}
+        {%- assign post_number = forloop.index -%}
+        {%- assign is_current = false -%}
+        {%- if post.url == page.url -%}
+          {%- assign is_current = true -%}
+        {%- endif -%}
+        
+        <div class="flex items-center space-x-4 group">
+          <!-- 序号 -->
+          <div class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold
+                      {%- if is_current -%} bg-tech-cyan text-tech-dark
+                      {%- else -%} bg-white/10 text-gray-400 group-hover:bg-tech-cyan/20 group-hover:text-tech-cyan
+                      {%- endif -%}">
+            {{ post_number }}
+          </div>
+          
+          <!-- 文章信息 -->
+          {%- if is_current -%}
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center space-x-2">
+                <span class="text-tech-cyan font-medium">{{ post.title }}</span>
+                <span class="px-2 py-1 rounded text-xs bg-tech-cyan text-tech-dark font-bold">当前</span>
+              </div>
+              <p class="text-sm text-gray-400 mt-1">{{ post.date | date: "%Y年%m月%d日" }}</p>
+            </div>
+          {%- else -%}
+            <a href="{{ post.url | relative_url }}" class="flex-1 min-w-0 group-hover:text-tech-cyan transition-colors">
+              <div class="text-gray-300 group-hover:text-tech-cyan font-medium">{{ post.title }}</div>
+              <p class="text-sm text-gray-500 mt-1">{{ post.date | date: "%Y年%m月%d日" }}</p>
+            </a>
+          {%- endif -%}
+          
+          <!-- 状态指示器 -->
+          <div class="flex-shrink-0">
+            {%- if is_current -%}
+              <svg class="w-5 h-5 text-tech-cyan" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+              </svg>
+            {%- else -%}
+              <svg class="w-5 h-5 text-gray-500 group-hover:text-tech-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+              </svg>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    <!-- 合集链接 -->
+    <div class="mt-6 pt-4 border-t border-white/10">
+      <a href="/series/{{ current_series }}/" 
+         class="inline-flex items-center space-x-2 text-sm text-tech-cyan hover:text-tech-purple transition-colors">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0l-4 4m4-4l-4-4"></path>
+        </svg>
+        <span>查看完整合集</span>
+      </a>
+    </div>
+  </div>
+  {%- endif -%}
+{%- endif -%}
